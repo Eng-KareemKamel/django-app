@@ -1,0 +1,30 @@
+{% extends 'products/base.html' %}
+
+{% block content %}
+    <h2>Product List</h2>
+    {% if user.is_staff %}
+        <a href="{% url 'product_create' %}" class="btn btn-primary mb-3">Add New Product</a>
+    {% endif %}
+
+    <div class="row">
+        {% for product in products %}
+        <div class="col-md-4">
+            <div class="card mb-4">
+                {% if product.image %}
+                    <img src="{{ product.image.url }}" class="card-img-top" alt="{{ product.name }}">
+                {% endif %}
+                <div class="card-body">
+                    <h5 class="card-title">{{ product.name }}</h5>
+                    <p class="card-text">Price: ${{ product.price }}</p>
+                    <p class="card-text">In Stock: {{ product.quantity }}</p>
+                    {% if user.is_staff %}
+                        <a href="{% url 'product_update' pk=product.pk %}" class="btn btn-secondary btn-sm">Edit</a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <p>No products available.</p>
+        {% endfor %}
+    </div>
+{% endblock %}

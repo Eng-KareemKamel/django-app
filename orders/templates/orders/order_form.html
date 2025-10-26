@@ -1,0 +1,23 @@
+{% extends 'products/base.html' %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+    <h2>Place a New Order</h2>
+    <p>Please ensure you are logged in. This form is for placing new orders for available products.</p>
+    
+    <form method="post">
+        {% csrf_token %}
+        
+        <!-- This will display form-level errors (like our stock validation) -->
+        {% if form.non_field_errors %}
+            <div class="alert alert-danger">
+                {% for error in form.non_field_errors %}
+                    <p>{{ error }}</p>
+                {% endfor %}
+            </div>
+        {% endif %}
+        
+        {{ form|crispy }}
+        <button type="submit" class="btn btn-primary">Place Order</button>
+    </form>
+{% endblock %}
